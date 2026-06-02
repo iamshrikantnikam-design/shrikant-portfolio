@@ -1,0 +1,133 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Hop Text — layered word reveal</title>
+    <style>
+      :root {
+        font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+          Helvetica, Arial, sans-serif;
+        color-scheme: light;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: #ffffff;
+        color: #000000;
+        padding: 48px 24px;
+      }
+
+      .demo {
+        max-width: 820px;
+        width: 100%;
+        border-radius: 24px;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        padding: 80px 56px;
+        text-align: center;
+      }
+
+      .hop-line {
+        font-size: clamp(24px, 5vw, 44px);
+        font-weight: 900;
+        line-height: 1.25;
+        letter-spacing: -0.04em;
+        margin: 0;
+      }
+
+      /*
+        Per-word reveal — flicker-proof:
+
+        1. Outer .hop-word holds the hover hit area. Padding-top + negative
+           margin extend it 22px above the visible glyph so a 10px lift
+           never pushes it out from under the cursor.
+        2. The trailing space lives inside .hop-word, not as a sibling, so
+           adjacent words' hit boxes butt up against each other with no
+           dead gap.
+        3. Inner span is pointer-events:none so the inline glyph (which
+           DOES move) never owns the hover state — the moving target can't
+           make itself escape the cursor. Only the stationary outer box
+           matters.
+      */
+      .hop-word {
+        display: inline-block;
+        padding-top: 22px;
+        padding-bottom: 10px;
+        margin-top: -22px;
+        margin-bottom: -10px;
+      }
+
+      .hop-word__inner {
+        display: inline-block;
+        pointer-events: none;
+        will-change: transform;
+        text-shadow:
+          0 0 0 rgba(255, 107, 107, 0),
+          0 0 0 rgba(255, 209, 102, 0),
+          0 0 0 rgba(6, 214, 160, 0),
+          0 0 0 rgba(17, 138, 178, 0),
+          0 0 0 rgba(123, 44, 191, 0);
+        transition:
+          transform 520ms cubic-bezier(0.22, 1, 0.36, 1),
+          text-shadow 480ms cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .hop-word:hover .hop-word__inner {
+        transform: translateY(-10px);
+        text-shadow:
+          3px 3px 0 #ff6b6b,
+          6px 6px 0 #ffd166,
+          9px 9px 0 #06d6a0,
+          12px 12px 0 #118ab2,
+          15px 15px 0 #7b2cbf;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .hop-word__inner {
+          transition: none;
+        }
+        .hop-word:hover .hop-word__inner {
+          transform: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="demo">
+      <p class="hop-line" id="line">
+        I&rsquo;m open to full-time roles and freelance projects, especially
+        with teams building products that are worth the effort.
+      </p>
+    </div>
+
+    <script>
+      // Split the line into per-word spans at runtime so the markup stays
+      // copy-pasteable as plain text. If you'd rather hand-write the spans,
+      // replace the <p> contents with the structure produced below.
+      (function () {
+        var line = document.getElementById("line");
+        var words = line.textContent.trim().split(/\s+/);
+        line.textContent = "";
+        words.forEach(function (word, i) {
+          var outer = document.createElement("span");
+          outer.className = "hop-word";
+          var inner = document.createElement("span");
+          inner.className = "hop-word__inner";
+          inner.textContent = word;
+          outer.appendChild(inner);
+          if (i < words.length - 1) {
+            outer.appendChild(document.createTextNode(" "));
+          }
+          line.appendChild(outer);
+        });
+      })();
+    </script>
+  </body>
+</html>

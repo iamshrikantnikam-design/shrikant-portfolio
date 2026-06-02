@@ -6,6 +6,7 @@ import { Pill } from "./components/Pill";
 import { KineticType } from "./components/KineticType";
 import { FloatingCta } from "./components/FloatingCta";
 import { TiltCover } from "./components/TiltCover";
+import { VisualFeed } from "./components/VisualFeed";
 
 // Layered "stacked-plate" CTA.
 // Three nested layers create one composed button:
@@ -76,31 +77,62 @@ export default function Home() {
       */}
       <main className="flex-1">
         <div className="relative">
-          {/* ── Panel 1: HERO ───────────────────────────── */}
-          <Panel>
+          {/* ── Panel 1: HERO ─────────────────────────────
+              `!py-0` overrides Panel's default vertical padding so the
+              inner `h-[100dvh]` truly maps to the viewport. Layout uses
+              a 2-row grid (heading | paragraph+CTA) so the rows can
+              never collide even if KineticType renders larger than its
+              cell — the heading row clips its overflow, the subtitle
+              row keeps its space. */}
+          <Panel className="!py-0">
             <Container>
-              <div className="flex h-[100dvh] flex-col items-center justify-center gap-4 pb-4 pt-[56px] text-center md:gap-5 md:pb-6 md:pt-[68px]">
+              <div className="grid h-[100dvh] grid-rows-[1fr_auto] gap-4 pb-12 pt-[56px] text-center md:gap-5 md:pb-16 md:pt-[68px]">
                 <h1 className="sr-only">
                   Designing things that feel human for human.
                 </h1>
-                <div aria-hidden className="min-h-0 w-full flex-1">
-                  <KineticType
-                    lines={[
-                      "Designing",
-                      "Things that",
-                      "Feel human,",
-                      "For human",
-                    ]}
-                    bg="transparent"
-                    fg="#000000"
-                    influence={500}
-                    intensity={1.2}
-                    fontScale={1.8}
-                    widthBudget={80}
-                    height="100%"
-                    padding={0}
-                    draggableLines
-                  />
+                {/* Heading row — kinetic text centred in the remaining
+                    space above the paragraph. `overflow-hidden` ensures
+                    the canvas can't bleed into the row below if it
+                    scales up on wide screens. */}
+                <div
+                  aria-hidden
+                  className="flex min-h-0 items-center justify-center overflow-hidden"
+                >
+                  {/*
+                    Golden hero container — gold (#FFC93D) lifted from the
+                    SequinBackground bubble palette. Padding on all sides
+                    frames the title; no `overflow` clip here so the rainbow
+                    drop-shadow hover effect on the inner layer still fans
+                    out freely and is never cut off.
+                  */}
+                  <div className="flex h-full w-full max-w-[1200px] items-center justify-center rounded-[32px] bg-[#FFC93D] p-6 sm:p-10 md:p-14">
+                    {/*
+                      Multi-color text-layer effect — five chained
+                      drop-shadow filters fan a rainbow cascade behind
+                      the title glyphs. Applied only on cursor enter via
+                      the `hover:[filter:...]` arbitrary utility; the
+                      filter transition smooths the fan-in/out.
+                    */}
+                    <div className="h-full w-full transition-[filter] duration-300 ease-out hover:[filter:drop-shadow(3px_3px_0_#ff6b6b)_drop-shadow(3px_3px_0_#ffd166)_drop-shadow(3px_3px_0_#06d6a0)_drop-shadow(3px_3px_0_#118ab2)_drop-shadow(3px_3px_0_#7b2cbf)]">
+                      <KineticType
+                      lines={[
+                        "Designing",
+                        "Things that Feel human,",
+                        "For human",
+                      ]}
+                      lineScales={[2, 2, 0.82]}
+                      bg="transparent"
+                      fg="#000000"
+                      influence={500}
+                      intensity={1.2}
+                      fontScale={1.8}
+                      widthBudget={80}
+                      height="100%"
+                      padding={0}
+                      draggableLines
+                    />
+                    </div>
+                  </div>
                 </div>
                 <div className="flex flex-shrink-0 flex-col items-center">
                   <p className="max-w-[760px] text-[15px] font-semibold leading-[1.4] text-[color:var(--muted)] md:text-[16px]">
@@ -172,12 +204,25 @@ export default function Home() {
 
           {/* ── Panels 3–5: secondary case studies ──────── */}
           {WORK_CARDS.map((card, i) => (
-            <Panel key={card.title}>
+            <Panel key={card.title} className="!py-8 md:!py-12">
               <Container>
                 <WorkCard card={card} index={i} />
               </Container>
             </Panel>
           ))}
+
+          {/* ── Panel 5.5: visual feed (masonry placeholders) ─
+              Asymmetric padding: the panel above (BFA case study) uses
+              tight `!py-12`, and the panel below (OPEN TO WORK) uses
+              default `py-24`. To make the visible gap above the feed
+              equal the gap below, this panel needs more top padding
+              than bottom. 48 (BFA bottom) + 96 (this top) = 144 above;
+              48 (this bottom) + 96 (footer top) = 144 below. */}
+          <Panel className="!pt-24 !pb-12">
+            <Container>
+              <VisualFeed />
+            </Container>
+          </Panel>
 
           {/* ── Panel 6: OPEN TO WORK ────────────────────── */}
           <Panel>

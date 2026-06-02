@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 140" fill="none" role="img" aria-label="MoodPlan logo">
+  <g transform="translate(88 0)">
+    <circle cx="32" cy="32" r="28" stroke="#D8651F" stroke-width="1.5" opacity="0.35"/>
+    <circle cx="32" cy="32" r="19" stroke="#D8651F" stroke-width="1.5" opacity="0.6"/>
+    <circle cx="32" cy="32" r="10" stroke="#D8651F" stroke-width="1.75" opacity="0.85"/>
+    <circle cx="32" cy="32" r="4.2" fill="#F08A38"/>
+  </g>
+  <text x="120" y="118"
+        text-anchor="middle"
+        font-family="system-ui, -apple-system, 'SF Pro Display', 'Segoe UI', 'Helvetica Neue', Arial, sans-serif"
+        font-weight="900"
+        font-size="32"
+        letter-spacing="-0.64">
+    <tspan fill="#FFFFFF">Mood</tspan><tspan fill="#7DE5DA">Plan</tspan>
+  </text>
+</svg>

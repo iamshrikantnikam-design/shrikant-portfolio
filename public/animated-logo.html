@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Animated Logo</title>
+<style>
+  html, body {
+    margin: 0;
+    height: 100%;
+    background: #0b0b14;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    font-family: system-ui, sans-serif;
+  }
+  .stage {
+    width: min(90vw, 900px);
+    aspect-ratio: 16 / 9;
+    position: relative;
+  }
+  svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    filter: drop-shadow(0 20px 40px rgba(140, 90, 255, 0.35));
+  }
+
+  /* Float the whole logo */
+  .logo {
+    transform-origin: 475px 270px;
+    animation: float 3s ease-in-out infinite;
+  }
+  @keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(-25px); }
+  }
+
+  /* Wing flap — dramatic */
+  .wing-left {
+    transform-origin: 470px 240px;
+    animation: flapLeft 1.4s ease-in-out infinite;
+  }
+  .wing-right {
+    transform-origin: 480px 240px;
+    animation: flapRight 1.4s ease-in-out infinite;
+  }
+  @keyframes flapLeft {
+    0%, 100% { transform: rotate(0deg)   skewY(0deg)  scaleY(1); }
+    50%      { transform: rotate(-22deg) skewY(-8deg) scaleY(0.85); }
+  }
+  @keyframes flapRight {
+    0%, 100% { transform: rotate(0deg)   skewY(0deg)  scaleY(1); }
+    50%      { transform: rotate(22deg)  skewY(8deg)  scaleY(0.85); }
+  }
+
+  /* Body subtle pulse */
+  .body {
+    transform-origin: 475px 290px;
+    animation: bodyPulse 2.4s ease-in-out infinite;
+  }
+  @keyframes bodyPulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.03); }
+  }
+
+  /* Eye glow */
+  .eye {
+    animation: eyeGlow 2s ease-in-out infinite;
+    transform-origin: center;
+  }
+  @keyframes eyeGlow {
+    0%, 92%, 100% { opacity: 1; transform: scaleY(1); }
+    95%           { opacity: 1; transform: scaleY(0.1); } /* blink */
+  }
+
+  /* Gradient shimmer by rotating hue */
+  .shimmer {
+    animation: hueShift 8s linear infinite;
+  }
+  @keyframes hueShift {
+    0%   { filter: hue-rotate(0deg); }
+    100% { filter: hue-rotate(360deg); }
+  }
+
+  /* Sparkle stars */
+  .spark {
+    fill: #fff;
+    opacity: 0;
+    animation: sparkle 3s ease-in-out infinite;
+  }
+  .spark:nth-child(2) { animation-delay: 0.8s; }
+  .spark:nth-child(3) { animation-delay: 1.6s; }
+  .spark:nth-child(4) { animation-delay: 2.2s; }
+  @keyframes sparkle {
+    0%, 100% { opacity: 0; transform: scale(0.6); }
+    50%      { opacity: 1; transform: scale(1.4); }
+  }
+
+  /* Stroke draw-in on load */
+  .outline {
+    stroke-dasharray: 2400;
+    stroke-dashoffset: 2400;
+    animation: draw 2.2s ease-out forwards;
+  }
+  @keyframes draw {
+    to { stroke-dashoffset: 0; }
+  }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <svg viewBox="0 0 950 540" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <linearGradient id="wingGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%"   stop-color="#7ed0ff"/>
+          <stop offset="35%"  stop-color="#7a7bff"/>
+          <stop offset="65%"  stop-color="#c771ff"/>
+          <stop offset="100%" stop-color="#ff8a8a"/>
+        </linearGradient>
+        <radialGradient id="bodyGrad" cx="50%" cy="40%" r="70%">
+          <stop offset="0%"  stop-color="#e6c8ff"/>
+          <stop offset="55%" stop-color="#8e7bff"/>
+          <stop offset="100%" stop-color="#4a3f8a"/>
+        </radialGradient>
+        <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="0.6"/>
+        </filter>
+      </defs>
+
+      <!-- Sparkles -->
+      <g>
+        <circle class="spark" cx="120" cy="120" r="3"/>
+        <circle class="spark" cx="820" cy="160" r="2.5"/>
+        <circle class="spark" cx="200" cy="430" r="2"/>
+        <circle class="spark" cx="760" cy="420" r="3"/>
+      </g>
+
+      <g class="logo shimmer">
+
+        <!-- LEFT WING -->
+        <g class="wing-left">
+          <polygon
+            class="outline"
+            fill="url(#wingGrad)"
+            stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"
+            points="
+              470,200
+              120,150
+              60,210
+              180,240
+              90,290
+              250,290
+              200,360
+              370,310
+              440,360
+              460,260
+            "/>
+          <!-- inner facets -->
+          <g stroke="#0a0a0a" stroke-width="3" fill="none" filter="url(#soft)">
+            <line x1="470" y1="200" x2="120" y2="150"/>
+            <line x1="470" y1="200" x2="60"  y2="210"/>
+            <line x1="470" y1="200" x2="180" y2="240"/>
+            <line x1="470" y1="200" x2="90"  y2="290"/>
+            <line x1="470" y1="200" x2="250" y2="290"/>
+            <line x1="470" y1="200" x2="200" y2="360"/>
+            <line x1="470" y1="200" x2="370" y2="310"/>
+            <line x1="460" y1="260" x2="180" y2="240"/>
+            <line x1="460" y1="260" x2="250" y2="290"/>
+          </g>
+        </g>
+
+        <!-- RIGHT WING -->
+        <g class="wing-right">
+          <polygon
+            class="outline"
+            fill="url(#wingGrad)"
+            stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"
+            points="
+              480,200
+              830,150
+              890,210
+              770,240
+              860,290
+              700,290
+              750,360
+              580,310
+              510,360
+              490,260
+            "/>
+          <g stroke="#0a0a0a" stroke-width="3" fill="none" filter="url(#soft)">
+            <line x1="480" y1="200" x2="830" y2="150"/>
+            <line x1="480" y1="200" x2="890" y2="210"/>
+            <line x1="480" y1="200" x2="770" y2="240"/>
+            <line x1="480" y1="200" x2="860" y2="290"/>
+            <line x1="480" y1="200" x2="700" y2="290"/>
+            <line x1="480" y1="200" x2="750" y2="360"/>
+            <line x1="480" y1="200" x2="580" y2="310"/>
+            <line x1="490" y1="260" x2="770" y2="240"/>
+            <line x1="490" y1="260" x2="700" y2="290"/>
+          </g>
+        </g>
+
+        <!-- BODY / HEAD -->
+        <g class="body">
+          <!-- head -->
+          <circle cx="475" cy="250" r="78"
+                  fill="url(#bodyGrad)"
+                  stroke="#0a0a0a" stroke-width="4"/>
+          <!-- ears -->
+          <polygon points="410,200 435,160 460,210"
+                   fill="url(#bodyGrad)" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+          <polygon points="540,200 515,160 490,210"
+                   fill="url(#bodyGrad)" stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"/>
+
+          <!-- lower body (geometric facets) -->
+          <polygon
+            fill="url(#bodyGrad)"
+            stroke="#0a0a0a" stroke-width="4" stroke-linejoin="round"
+            points="
+              420,310
+              360,360
+              475,490
+              590,360
+              530,310
+              475,340
+            "/>
+          <g stroke="#0a0a0a" stroke-width="3" fill="none">
+            <line x1="475" y1="340" x2="475" y2="490"/>
+            <line x1="420" y1="310" x2="475" y2="490"/>
+            <line x1="530" y1="310" x2="475" y2="490"/>
+            <line x1="360" y1="360" x2="475" y2="340"/>
+            <line x1="590" y1="360" x2="475" y2="340"/>
+          </g>
+
+          <!-- eyes -->
+          <g class="eye">
+            <path d="M430 240 q15 -18 38 0 q-15 16 -38 0 Z"
+                  fill="#0a0a0a"/>
+            <path d="M520 240 q-15 -18 -38 0 q15 16 38 0 Z"
+                  fill="#0a0a0a"/>
+          </g>
+
+          <!-- nose / beak -->
+          <polygon points="465,275 485,275 475,295"
+                   fill="#0a0a0a"/>
+        </g>
+      </g>
+    </svg>
+  </div>
+</body>
+</html>
