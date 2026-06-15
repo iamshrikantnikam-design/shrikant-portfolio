@@ -1,85 +1,108 @@
 "use client";
 
-import { useState } from "react";
-
-// Cover halves are transparent — the black frame behind shows through.
-// On open, the halves slide outward, taking only the inner white
-// mini-frames with them; the black surface stays put.
-const COVER_CLASS = "overflow-hidden rounded-[20px]";
-const REVEAL_CLASS =
-  "absolute inset-0 overflow-hidden rounded-[20px] bg-black shadow-[0_8px_30px_-12px_rgba(0,0,0,0.4)]";
-
-const REVEAL_DURATION_MS = 1100;
-
 /**
- * VisualFeed — click-to-reveal. Closed: one white frame (two halves
- * abutting at center). Clicking the frame slides the halves outward
- * over ~3.5s, revealing a single black frame behind. One-shot.
+ * VisualFeed — Work showcase with project cards.
+ * Grid layout with black cards, rounded corners, and project details.
  */
 export function VisualFeed() {
-  const [open, setOpen] = useState(false);
+  const projects = [
+    {
+      id: 1,
+      title: "Brand & logo work",
+      subtitle: "SUB-COPY TEXT",
+      description:
+        "Logo systems, brand identities, and visual language for businesses across food, tech, and services. Rooted in BFA craft.",
+      label: "Logo design",
+      tag: "Brand identity",
+      imageColor: "bg-black",
+    },
+    {
+      id: 2,
+      title: "AI career guide for Bharat",
+      subtitle: "SUB-COPY TEXT",
+      description:
+        "Career guidance for tier-2 city students in India. AI-powered, voice-first, built around real constraints.",
+      label: null,
+      tag: null,
+      imageColor: "bg-black",
+    },
+    {
+      id: 3,
+      title: "Coming soon",
+      subtitle: "",
+      description: "",
+      label: "Coming soon",
+      tag: null,
+      imageColor: "bg-black",
+      comingSoon: true,
+    },
+  ];
 
   return (
-    <div className="relative aspect-[4/3] w-full md:aspect-[11/6]">
-      {/* Frame 2 — single solid black surface revealed once the cover
-          splits away. */}
-      <div className={REVEAL_CLASS} />
+    <div className="w-full">
+      <div className="grid w-full gap-6 md:grid-cols-2">
+        {/* Left Column */}
+        <div className="space-y-6">
+          {/* Card 1: Brand & Logo Work */}
+          <div className="group cursor-pointer">
+            <div className="relative aspect-[3/2.5] overflow-hidden rounded-[24px] bg-black p-8 md:p-10">
+              <div className="inline-block rounded-full border border-white/20 px-4 py-1.5 text-xs font-medium text-white/70 mb-4">
+                {projects[0].label}
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="text-center">
+                  <h3 className="text-2xl md:text-4xl font-bold text-white leading-tight">
+                    {projects[0].title.split(" ")[0]}
+                    <br />
+                    {projects[0].title.split(" ").slice(1).join(" ")}
+                  </h3>
+                </div>
+              </div>
+            </div>
+          </div>
 
-      {/*
-        Cover: two white halves abut at center so the closed state reads
-        as one continuous frame. Inner edges are borderless and outer
-        corners rounded so the seam is invisible. On open, each half
-        slides outward off its own side.
-      */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 overflow-visible"
-      >
-        {/*
-          Each half is w-1/2 and holds one column of the 2×2 staggered
-          grid:
-          - Left:  small (top) + big (bottom)
-          - Right: big   (top) + small (bottom)
-          Gutters are all 24px:
-          - p-6 = 24px margin from the outer container edges
-          - gap-6 = 24px vertical gap between top and bottom rows
-          - pr-3 + pl-3 = 24px center gap between the two columns
-        */}
-        <div
-          className={`${COVER_CLASS} absolute inset-y-0 left-0 flex w-1/2 flex-col gap-6 rounded-r-none p-6 pr-3`}
-          style={{
-            transform: open ? "translateX(-110%)" : "translateX(0)",
-            transition: `transform ${REVEAL_DURATION_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`,
-          }}
-        >
-          <div className="flex-[2] rounded-[14px] bg-white" />
-          <div className="flex-[3] rounded-[14px] bg-white" />
+          {/* Card 2: AI Career Guide */}
+          <div className="group cursor-pointer">
+            <div className="rounded-[24px] bg-white p-8 md:p-10">
+              <h3 className="text-2xl md:text-3xl font-bold text-black mb-2">
+                {projects[1].title}
+              </h3>
+              <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">
+                {projects[1].subtitle}
+              </p>
+              <p className="text-sm md:text-base text-gray-600 leading-relaxed mb-4">
+                {projects[1].description}
+              </p>
+              <div className="flex flex-wrap gap-2">
+                <span className="inline-block rounded-full border border-gray-300 px-4 py-1.5 text-xs font-medium text-gray-600">
+                  Brand identity
+                </span>
+              </div>
+            </div>
+          </div>
         </div>
-        <div
-          className={`${COVER_CLASS} absolute inset-y-0 right-0 flex w-1/2 flex-col gap-6 rounded-l-none p-6 pl-3`}
-          style={{
-            transform: open ? "translateX(110%)" : "translateX(0)",
-            transition: `transform ${REVEAL_DURATION_MS}ms cubic-bezier(0.22, 1, 0.36, 1)`,
-          }}
-        >
-          <div className="flex-[3] rounded-[14px] bg-white" />
-          <div className="flex-[2] rounded-[14px] bg-white" />
+
+        {/* Right Column */}
+        <div className="flex flex-col justify-start">
+          {/* Card 3: Coming Soon */}
+          <div className="group cursor-pointer">
+            <div className="relative aspect-[3/3.5] overflow-hidden rounded-[24px] bg-black p-8 md:p-10 flex flex-col justify-between">
+              <div className="inline-block rounded-full border border-white/20 px-4 py-1.5 text-xs font-medium text-white/70 w-fit">
+                Coming soon
+              </div>
+              <div className="flex items-center justify-center flex-1">
+                <h3 className="text-5xl md:text-6xl font-bold text-white text-center leading-tight">
+                  AI<br />
+                  GUIDE
+                </h3>
+              </div>
+              <button className="inline-block rounded-full border border-white/30 px-6 py-2 text-xs font-semibold text-white uppercase tracking-wider hover:bg-white/10 transition">
+                Contact
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-
-      {/*
-        Click target — sits on top of the closed cover so the whole
-        frame is one tap zone. Unmounts once open so it doesn't block
-        anything behind the revealed frame.
-      */}
-      {!open && (
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label="Open visual feed"
-          className="absolute inset-0 cursor-pointer rounded-[20px] focus:outline-none focus-visible:ring-2 focus-visible:ring-black/30"
-        />
-      )}
     </div>
   );
 }

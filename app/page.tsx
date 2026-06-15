@@ -113,24 +113,19 @@ export default function Home() {
                       the `hover:[filter:...]` arbitrary utility; the
                       filter transition smooths the fan-in/out.
                     */}
-                    <div className="h-full w-full transition-[filter] duration-300 ease-out hover:[filter:drop-shadow(3px_3px_0_#ff6b6b)_drop-shadow(3px_3px_0_#ffd166)_drop-shadow(3px_3px_0_#06d6a0)_drop-shadow(3px_3px_0_#118ab2)_drop-shadow(3px_3px_0_#7b2cbf)]">
-                      <KineticType
-                      lines={[
-                        "Designing",
-                        "Things that Feel human,",
-                        "For human",
-                      ]}
-                      lineScales={[2, 2, 0.82]}
-                      bg="transparent"
-                      fg="#000000"
-                      influence={500}
-                      intensity={1.2}
-                      fontScale={1.8}
-                      widthBudget={80}
-                      height="100%"
-                      padding={0}
-                      draggableLines
-                    />
+                    <div className="flex flex-col items-center justify-center gap-2 md:gap-3">
+                      <h2 className="text-[48px] font-light leading-[1.1] text-black md:text-[72px]">
+                        Designing
+                      </h2>
+                      <h2 className="text-[48px] font-bold leading-[1.1] text-black md:text-[72px]">
+                        Things that
+                      </h2>
+                      <h2 className="text-[48px] font-light leading-[1.1] text-black md:text-[72px]">
+                        Feel human,
+                      </h2>
+                      <h2 className="text-[48px] font-bold leading-[1.1] text-black md:text-[72px]">
+                        For human
+                      </h2>
                     </div>
                   </div>
                 </div>
