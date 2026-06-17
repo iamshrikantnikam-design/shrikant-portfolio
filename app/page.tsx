@@ -105,7 +105,7 @@ export default function Home() {
                     drop-shadow hover effect on the inner layer still fans
                     out freely and is never cut off.
                   */}
-                  <div className="flex h-full w-full max-w-[1200px] items-center justify-center rounded-[32px] bg-[#FFC93D] p-6 sm:p-10 md:p-14">
+                  <div className="flex h-full w-full max-w-[1200px] items-center justify-center rounded-[32px] p-6 sm:p-10 md:p-14" style={{ backgroundColor: "#FFC93D" }}>
                     {/*
                       Multi-color text-layer effect — five chained
                       drop-shadow filters fan a rainbow cascade behind
